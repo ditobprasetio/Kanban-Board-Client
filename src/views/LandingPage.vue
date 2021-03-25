@@ -5,7 +5,11 @@
       <div class="signup-box">
         <h5 style="margin-top: 20px">Create your Kanban Account</h5>
         <h6>to contiue to Kanban</h6>
-        <b-form style="margin-top: 20px" @submit.prevent="signup()">
+        <b-form
+          class="signup-form"
+          style="margin-top: 20px"
+          @submit.prevent="signup()"
+        >
           <b-form-group
             id="input-group-1"
             label="Username:"
@@ -51,7 +55,7 @@
             ></b-form-input>
           </b-form-group>
           <div class="signup-ops">
-            <a class="signin-btn" @click="signinPage()">Sign in instead</a>
+            <a class="signin-btn" @click="signinPage">Sign in instead</a>
             <b-button type="submit" class="btn">Sign up</b-button>
           </div>
         </b-form>
@@ -60,11 +64,15 @@
     <!-- end -->
 
     <!-- signin page -->
-    <div id="signin-page"  v-if="signupStatus">
+    <div id="signin-page" v-if="signupStatus">
       <div class="signin-box">
         <h5 style="margin-top: 20px">Sign in</h5>
         <h6>to contiue to Kanban</h6>
-        <b-form style="margin-top: 20px" @submit.prevent="signin()">
+        <b-form
+          class="signin-form"
+          style="margin-top: 20px"
+          @submit.prevent="signin()"
+        >
           <b-form-group
             id="input-group-2"
             label="Email address:"
@@ -95,7 +103,7 @@
             ></b-form-input>
           </b-form-group>
           <div class="signup-ops">
-            <a class="signup-btn" @click="signupPage()">Create account</a>
+            <a class="signup-btn" @click="signupPage">Create account</a>
             <b-button type="submit" class="btn">Sign in</b-button>
           </div>
         </b-form>
@@ -106,7 +114,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "Landingpage",
@@ -116,68 +124,69 @@ export default {
       username: "",
       email: "",
       password: "",
-      signupStatus: true 
+      signupStatus: true,
     };
   },
   methods: {
-    signupPage () {
-      this.signupStatus = false
+    signupPage() {
+      this.signupStatus = false;
     },
-    signinPage () {
-      this.signupStatus = true
+    signinPage() {
+      this.signupStatus = true;
     },
-    signup () {
+    signup() {
       axios({
         method: "POST",
         url: "http://localhost:3001/signup",
         data: {
           username: this.username,
           email: this.email,
-          password: this.password
-        }
+          password: this.password,
+        },
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log(data);
-          localStorage.setItem("kanban-token", data.token)
-          this.$emit("changePage", "Dashboard")
-          this.username = ""
-          this.email = ""
-          this.password = ""
+          localStorage.setItem("kanban-token", data.token);
+          this.$emit("changePage", "Dashboard");
+          this.signupStatus = true;
+          this.username = "";
+          this.email = "";
+          this.password = "";
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     },
-    signin () {
+    signin() {
       axios({
         method: "POST",
         url: "http://localhost:3001/signin",
         data: {
           email: this.email,
-          password: this.password
-        }
+          password: this.password,
+        },
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log(data);
-          localStorage.setItem("kanban-token", data.token)
-          this.$emit("changePage", "Dashboard")
-          this.email = ""
-          this.password = ""
+          localStorage.setItem("kanban-token", data.token);
+          this.$emit("changePage", "Dashboard");
+          this.email = "";
+          this.password = "";
         })
         .catch((err) => {
           console.log(err);
-        })
-    }
+        });
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 #signup-page,
 #signin-page {
   width: 100vw;
   height: 100vh;
-  background-color: #181818;
+  background-color: #252525;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,7 +196,7 @@ export default {
   width: 350px;
   height: 550px;
   padding: 20px;
-  background-color: #202020;
+  background-color: #2d2d2d;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -198,7 +207,7 @@ export default {
   width: 350px;
   height: 450px;
   padding: 20px;
-  background-color: #202020;
+  background-color: #2d2d2d;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -210,9 +219,15 @@ h6 {
   color: #fff;
 }
 
+.signup-form,
+.signin-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .label {
   margin-top: 13px;
-  color: #aaaa83;
+  color: #cecece;
 }
 
 .signup-ops {
@@ -224,7 +239,7 @@ h6 {
 
 .signup-btn,
 .signin-btn {
-  color: #3ea6e2;
+  color: #3ea6e1;
   cursor: pointer;
   padding: 7px;
 }
@@ -234,12 +249,12 @@ h6 {
   color: #3ea6e2;
   cursor: pointer;
   text-decoration: none;
-  background-color: #2d2d2d6e;
+  background-color: #414141;
   border-radius: 3px;
 }
 
 .btn {
-  background: #3ea6e2 !important;
+  background: #3ea6e1 !important;
   padding: 7px;
 }
 </style>

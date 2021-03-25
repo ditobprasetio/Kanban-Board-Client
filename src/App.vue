@@ -1,12 +1,10 @@
 <template>
   <div>
     <LandingPage
-    :currentPage='currentPage'
-    @changePage='changePage'
+      :currentPage="currentPage"
+      @changePage="changePage"
     ></LandingPage>
-    <Dashboard
-    :currentPage='currentPage'
-    ></Dashboard>
+    <Dashboard :currentPage="currentPage" @signout="signout"></Dashboard>
   </div>
 </template>
 
@@ -26,7 +24,7 @@ export default {
     };
   },
   methods: {
-    signinStatus: function () {
+    signinStatus() {
       let token = localStorage.getItem("kanban-token");
       if (token) {
         this.currentPage = "Dashboard";
@@ -34,13 +32,17 @@ export default {
         this.currentPage = "Landingpage";
       }
     },
-    changePage: function (page) {
-      this.currentPage = page
-    }
+    changePage(page) {
+      this.currentPage = page;
+    },
+    signout() {
+      this.currentPage = "Landingpage";
+      localStorage.clear();
+    },
   },
   created() {
-    this.signinStatus()
-  }
+    this.signinStatus();
+  },
 };
 </script>
 
